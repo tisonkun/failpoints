@@ -16,30 +16,20 @@
 
 package org.tisonkun.failpoints;
 
-import org.tisonkun.failpoints.function.UncheckedSupplier;
+public class FailpointGuard implements AutoCloseable {
 
-public class Failpoint<T> implements AutoCloseable {
+    private final Failpoint<?> failpoint;
 
-    private volatile UncheckedSupplier<T, ? extends Throwable> supplier;
-
-    public Failpoint(UncheckedSupplier<T, ? extends Throwable> supplier) {
-        this.supplier = supplier;
-    }
-
-    public T eval() {
-        final UncheckedSupplier<T, ?> supplier = this.supplier;
-        if (supplier != null) {
-            return supplier.get();
-        }
-        return null;
+    public FailpointGuard(Failpoint<?> failpoint) {
+        this.failpoint = failpoint;
     }
 
     public boolean closed() {
-        return this.supplier == null;
+        return this.failpoint.closed();
     }
 
     @Override
     public void close() {
-        this.supplier = null;
+        this.failpoint.close();
     }
 }

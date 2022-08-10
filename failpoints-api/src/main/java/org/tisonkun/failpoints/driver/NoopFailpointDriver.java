@@ -16,12 +16,13 @@
 
 package org.tisonkun.failpoints.driver;
 
-import org.tisonkun.failpoints.Failpoint;
+import org.tisonkun.failpoints.FailpointGuard;
 import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
 public class NoopFailpointDriver implements FailpointDriver {
+    public static final String NAME = "NoopFailpointDriver";
 
     @Override
     public int priority() {
@@ -30,11 +31,11 @@ public class NoopFailpointDriver implements FailpointDriver {
 
     @Override
     public String name() {
-        return "NoopFailpointDriver";
+        return NAME;
     }
 
     @Override
-    public <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+    public <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier) {
         return null;
     }
 

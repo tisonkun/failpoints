@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package org.tisonkun.failpoints.spi;
+package org.tisonkun.failpoints.driver;
 
-import org.tisonkun.failpoints.FailpointGuard;
-import org.tisonkun.failpoints.function.UncheckedConsumer;
-import org.tisonkun.failpoints.function.UncheckedSupplier;
+import org.tisonkun.failpoints.Failpoints;
 
-public interface FailpointDriver {
-    int priority();
+public class TestingObject {
 
-    String name();
+    public void testInject(Runnable r) {
+        Failpoints.inject(Failpoints.prepend(getClass(), "testing-object"), v -> {
+            if (v != null && (boolean) v) {
+                r.run();
+            }
+        });
+    }
 
-    <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier);
-
-    <T> T eval(String name);
-
-    void inject(String name, UncheckedConsumer<?, ?> consumer);
 }

@@ -26,7 +26,6 @@ import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
 public class Failpoints {
-
     private static final FailpointDriver DRIVER;
 
     static {
@@ -39,7 +38,7 @@ public class Failpoints {
         return DRIVER.name();
     }
 
-    public static <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+    public static <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier) {
         return DRIVER.enable(name, supplier);
     }
 
@@ -51,4 +50,7 @@ public class Failpoints {
         DRIVER.inject(name, consumer);
     }
 
+    public static String prepend(Class<?> clazz, String name) {
+        return String.format("%s#%s", clazz.getCanonicalName(), name);
+    }
 }

@@ -19,11 +19,13 @@ package org.tisonkun.failpoints.driver;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.tisonkun.failpoints.Failpoint;
+import org.tisonkun.failpoints.FailpointGuard;
 import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
 public class SimpleFailpointDriver implements FailpointDriver {
+    public static final String NAME = "SimpleFailpointDriver";
     private final Map<String, Failpoint<?>> failpointMap = new ConcurrentHashMap<>();
 
     @Override
@@ -33,14 +35,14 @@ public class SimpleFailpointDriver implements FailpointDriver {
 
     @Override
     public String name() {
-        return "SimpleFailpointDriver";
+        return NAME;
     }
 
     @Override
-    public <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+    public <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier) {
         final Failpoint<T> failpoint = new Failpoint<>(supplier);
         this.failpointMap.put(name, failpoint);
-        return failpoint;
+        return new FailpointGuard(failpoint);
     }
 
     @Override
