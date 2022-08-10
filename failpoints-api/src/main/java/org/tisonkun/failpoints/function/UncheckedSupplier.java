@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package org.tisonkun.failpoints.spi;
+package org.tisonkun.failpoints.function;
 
-import org.tisonkun.failpoints.Failpoint;
-import org.tisonkun.failpoints.function.UncheckedConsumer;
-import org.tisonkun.failpoints.function.UncheckedSupplier;
+import java.util.function.Supplier;
+import lombok.SneakyThrows;
 
-public interface FailpointDriver {
-    int priority();
+@FunctionalInterface
+public interface UncheckedSupplier<T, E extends Throwable> extends Supplier<T> {
+    T getUnchecked() throws E;
 
-    String name();
-
-    <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier);
-
-    <T> T eval(String name);
-
-    void inject(String name, UncheckedConsumer<?, ?> consumer);
+    @Override
+    @SneakyThrows
+    default T get() {
+        return getUnchecked();
+    }
 }

@@ -28,12 +28,22 @@ limitations under the License.
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spotless.version>2.24.1</spotless.version>
+        <lombok.version>1.18.24</lombok.version>
     </properties>
 
     <modules>
         <module>failpoints-api</module>
         <module>failpoints-simple</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

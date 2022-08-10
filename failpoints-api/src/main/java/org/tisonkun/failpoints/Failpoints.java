@@ -21,6 +21,8 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.tisonkun.failpoints.driver.NoopFailpointDriver;
+import org.tisonkun.failpoints.function.UncheckedConsumer;
+import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
 public class Failpoints {
@@ -35,6 +37,18 @@ public class Failpoints {
 
     public static String driverName() {
         return DRIVER.name();
+    }
+
+    public static <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+        return DRIVER.enable(name, supplier);
+    }
+
+    public static <T> T eval(String name) {
+        return DRIVER.eval(name);
+    }
+
+    public static void inject(String name, UncheckedConsumer<?, ?> consumer) {
+        DRIVER.inject(name, consumer);
     }
 
 }

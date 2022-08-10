@@ -14,35 +14,28 @@
  * limitations under the License.
  */
 
-package org.tisonkun.failpoints.driver;
+package org.tisonkun.failpoints;
 
-import org.tisonkun.failpoints.Failpoint;
-import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
-import org.tisonkun.failpoints.spi.FailpointDriver;
 
-public class NoopFailpointDriver implements FailpointDriver {
+public class Failpoint<T> implements AutoCloseable {
 
-    @Override
-    public int priority() {
-        return 0;
+    private volatile UncheckedSupplier<T, ? extends Throwable> supplier;
+
+    public Failpoint(UncheckedSupplier<T, ? extends Throwable> supplier) {
+        this.supplier = supplier;
     }
 
-    @Override
-    public String name() {
-        return "NoopFailpointDriver";
-    }
-
-    @Override
-    public <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+    public T eval() {
+        final UncheckedSupplier<T, ?> supplier = this.supplier;
+        if (supplier != null) {
+            supplier.get();
+        }
         return null;
     }
 
     @Override
-    public <T> T eval(String name) {
-        return null;
+    public void close() {
+        this.supplier = null;
     }
-
-    @Override
-    public void inject(String name, UncheckedConsumer<?, ?> consumer) {}
 }

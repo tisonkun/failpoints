@@ -16,9 +16,16 @@
 
 package org.tisonkun.failpoints.driver;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.tisonkun.failpoints.Failpoint;
+import org.tisonkun.failpoints.function.UncheckedConsumer;
+import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
 public class SimpleFailpointDriver implements FailpointDriver {
+    private final Map<String, Failpoint<?>> failpointMap = new ConcurrentHashMap<>();
+
     @Override
     public int priority() {
         return 100;
@@ -27,5 +34,27 @@ public class SimpleFailpointDriver implements FailpointDriver {
     @Override
     public String name() {
         return "SimpleFailpointDriver";
+    }
+
+    @Override
+    public <T> Failpoint<T> enable(String name, UncheckedSupplier<T, ?> supplier) {
+        final Failpoint<T> failpoint = new Failpoint<>(supplier);
+        this.failpointMap.put(name, failpoint);
+        return failpoint;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T eval(String name) {
+        final Failpoint<?> failpoint = this.failpointMap.get(name);
+        if (failpoint != null) {
+            return (T) failpoint.eval();
+        }
+        return null;
+    }
+
+    @Override
+    public void inject(String name, UncheckedConsumer<?, ?> consumer) {
+        consumer.accept(eval(name));
     }
 }
