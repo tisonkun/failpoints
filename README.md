@@ -5,6 +5,22 @@ An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail)
 ## Quick Start
 
 1. Add failpoints library in dependencies.
+
+```xml
+<dependency>
+  <groupId>org.tisonkun.failpoints</groupId>
+  <artifactId>failpoints-api</artifactId>
+  <version>1.0.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.tisonkun.failpoints</groupId>
+    <artifactId>failpoints-simple</artifactId>
+    <version>1.0.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
 2. Inject failpoints to your program, eg:
 
 ```java
