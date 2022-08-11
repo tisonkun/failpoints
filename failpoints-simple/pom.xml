@@ -20,11 +20,11 @@ limitations under the License.
     <parent>
         <groupId>org.tisonkun.failpoints</groupId>
         <artifactId>failpoints</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>failpoints-simple</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>Failpoint :: Simple Driver</name>
     <description>Failpoint - Simple Driver</description>
