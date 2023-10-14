@@ -12,13 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-header:
-  license:
-    spdx-id: Apache-2.0
-    copyright-owner: tison <wander4096@gmail.com>
-  paths:
-    - '**/*.java'
-    - '**/*.yml'
-    - '**/*.xml'
-  paths-ignore:
-    - '.github/FUNDING.yml'
+headerPath = "Apache-2.0.txt"
+
+[properties]
+inceptionYear = 2022
+copyrightOwner = "tison <wander4096@gmail.com>"

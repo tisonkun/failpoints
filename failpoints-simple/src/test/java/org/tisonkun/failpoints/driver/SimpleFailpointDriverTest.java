@@ -50,5 +50,4 @@ public class SimpleFailpointDriverTest {
         new TestingObject().testInject(latch::countDown);
         Assertions.assertFalse(latch.await(1000, TimeUnit.MILLISECONDS));
     }
-
 }
