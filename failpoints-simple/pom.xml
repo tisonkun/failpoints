@@ -22,11 +22,11 @@
     <parent>
         <groupId>org.tisonkun.failpoints</groupId>
         <artifactId>failpoints</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>failpoints-simple</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1-SNAPSHOT</version>
 
     <name>Failpoint :: Simple Driver</name>
     <description>Failpoint - Simple Driver</description>
