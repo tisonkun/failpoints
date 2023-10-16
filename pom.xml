@@ -62,13 +62,14 @@
     </distributionManagement>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- lib dependencies -->
         <assertj.version>3.24.2</assertj.version>
         <junit.version>5.9.2</junit.version>
         <lombok.version>1.18.30</lombok.version>
+        <slf4j.version>2.0.7</slf4j.version>
 
         <!-- bundled maven plugins -->
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>

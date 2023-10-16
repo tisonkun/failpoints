@@ -31,15 +31,14 @@ public class NoopFailpointDriverTest {
 
     @Test
     public void testEvalFailpoint() {
-        Assertions.assertNull(Failpoints.enable("failpoints-test", () -> true));
+        Assertions.assertNull(Failpoints.enable("failpoints-test", true));
         Assertions.assertNull(Failpoints.eval("failpoints-test"));
         Assertions.assertNull(Failpoints.eval("failpoints-test"));
     }
 
     @Test
     public void testInjectFailpoint() throws Exception {
-        final String failpointName = Failpoints.prepend(TestingObject.class, "testing-object");
-        Assertions.assertNull(Failpoints.enable(failpointName, () -> true));
+        Assertions.assertNull(Failpoints.enable(TestingObject.class, "testing-object", true));
         final CountDownLatch latch = new CountDownLatch(1);
         new TestingObject().testInject(latch::countDown);
         Assertions.assertFalse(latch.await(1000, TimeUnit.MILLISECONDS));

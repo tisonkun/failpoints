@@ -7,18 +7,19 @@ An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail)
 1. Add failpoints library in dependencies.
 
 ```xml
+<dependencies>
 <dependency>
   <groupId>org.tisonkun.failpoints</groupId>
   <artifactId>failpoints-api</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 </dependency>
-
 <dependency>
     <groupId>org.tisonkun.failpoints</groupId>
     <artifactId>failpoints-simple</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <scope>test</scope>
 </dependency>
+</dependencies>
 ```
 
 2. Inject failpoints to your program, eg:
@@ -26,9 +27,9 @@ An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail)
 ```java
 import org.tisonkun.failpoints.Failpoints;
 
-public class MyClass {
-    public void method(Runnable r) {
-        Failpoints.inject(Failpoints.prepend(getClass(), "testing-object"), v -> {
+public class TestingObject {
+    public void testInject(Runnable r) {
+        Failpoints.inject(getClass(), "testing-object", v -> {
             if (v != null && (boolean) v) {
                 r.run();
             }
@@ -49,8 +50,7 @@ import org.tisonkun.failpoints.Failpoints;
 
 public class SimpleFailpointDriverTest {
     public void testInjectFailpoint() throws Exception {
-        final String failpointName = Failpoints.prepend(MyClass.class, "testing-object");
-        try (final FailpointGuard ignored = Failpoints.enable(failpointName, () -> true)) {
+        try (final FailpointGuard ignored = Failpoints.enable(TestingObject, "testing-object", true)) {
             final CountDownLatch latch = new CountDownLatch(1);
             new TestingObject().testInject(latch::countDown);
             Assertions.assertTrue(latch.await(1000, TimeUnit.MILLISECONDS));

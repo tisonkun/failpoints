@@ -16,30 +16,17 @@
 
 package org.tisonkun.failpoints;
 
+import lombok.NonNull;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 
-public class Failpoint<T> implements AutoCloseable {
+public class Failpoint<T> {
+    private final UncheckedSupplier<T, ? extends Throwable> supplier;
 
-    private volatile UncheckedSupplier<T, ? extends Throwable> supplier;
-
-    public Failpoint(UncheckedSupplier<T, ? extends Throwable> supplier) {
+    public Failpoint(@NonNull UncheckedSupplier<T, ? extends Throwable> supplier) {
         this.supplier = supplier;
     }
 
     public T eval() {
-        final UncheckedSupplier<T, ?> supplier = this.supplier;
-        if (supplier != null) {
-            return supplier.get();
-        }
-        return null;
-    }
-
-    public boolean closed() {
-        return this.supplier == null;
-    }
-
-    @Override
-    public void close() {
-        this.supplier = null;
+        return supplier.get();
     }
 }

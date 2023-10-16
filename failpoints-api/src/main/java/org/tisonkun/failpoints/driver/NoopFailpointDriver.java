@@ -21,6 +21,9 @@ import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
+/**
+ * A failpoint driver that basically does nothing.
+ */
 public class NoopFailpointDriver implements FailpointDriver {
     public static final String NAME = "NoopFailpointDriver";
 

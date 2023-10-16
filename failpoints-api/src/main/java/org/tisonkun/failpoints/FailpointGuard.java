@@ -16,20 +16,23 @@
 
 package org.tisonkun.failpoints;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.tisonkun.failpoints.function.UncheckedConsumer;
+
 public class FailpointGuard implements AutoCloseable {
-
+    private final AtomicBoolean closed = new AtomicBoolean(false);
     private final Failpoint<?> failpoint;
+    private final UncheckedConsumer<Failpoint<?>, ?> cleanup;
 
-    public FailpointGuard(Failpoint<?> failpoint) {
+    public FailpointGuard(Failpoint<?> failpoint, UncheckedConsumer<Failpoint<?>, ?> cleanup) {
         this.failpoint = failpoint;
-    }
-
-    public boolean closed() {
-        return this.failpoint.closed();
+        this.cleanup = cleanup;
     }
 
     @Override
     public void close() {
-        this.failpoint.close();
+        if (closed.compareAndSet(false, true)) {
+            this.cleanup.accept(failpoint);
+        }
     }
 }

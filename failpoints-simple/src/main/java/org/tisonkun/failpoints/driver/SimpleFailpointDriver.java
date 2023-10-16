@@ -18,12 +18,17 @@ package org.tisonkun.failpoints.driver;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.tisonkun.failpoints.Failpoint;
 import org.tisonkun.failpoints.FailpointGuard;
 import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 import org.tisonkun.failpoints.spi.FailpointDriver;
 
+/**
+ * A failpoint driver that using a global map to manage failpoints (de)registrations.
+ */
+@Slf4j
 public class SimpleFailpointDriver implements FailpointDriver {
     public static final String NAME = "SimpleFailpointDriver";
     private final Map<String, Failpoint<?>> failpointMap = new ConcurrentHashMap<>();
@@ -40,9 +45,13 @@ public class SimpleFailpointDriver implements FailpointDriver {
 
     @Override
     public <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier) {
+        log.debug("Enabling failpoint {}", name);
+
         final Failpoint<T> failpoint = new Failpoint<>(supplier);
-        this.failpointMap.put(name, failpoint);
-        return new FailpointGuard(failpoint);
+        if (this.failpointMap.putIfAbsent(name, failpoint) != null) {
+            throw new IllegalStateException("failpoint " + name + " has been already registered");
+        }
+        return new FailpointGuard(failpoint, ignored -> this.failpointMap.remove(name));
     }
 
     @Override

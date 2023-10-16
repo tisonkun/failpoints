@@ -20,14 +20,51 @@ import org.tisonkun.failpoints.FailpointGuard;
 import org.tisonkun.failpoints.function.UncheckedConsumer;
 import org.tisonkun.failpoints.function.UncheckedSupplier;
 
+/**
+ * A driver manages failpoints globally and properly inject them.
+ *
+ * @see org.tisonkun.failpoints.Failpoints
+ */
 public interface FailpointDriver {
+    /**
+     * The priority of this driver. The driver who has the highest priority will be used globally.
+     *
+     * @return the priority of this driver.
+     */
     int priority();
 
+    /**
+     * The name of this driver.
+     *
+     * @return the name of this driver.
+     */
     String name();
 
+    /**
+     * Enable a failpoint with a supplier that produces the result on {@link #eval(String)}ed.
+     *
+     * @param name the name of the failpoint.
+     * @param supplier the supplier that produces the result on evaluated.
+     * @return a failpoint guard during whose lifecycle this failpoint is enabled.
+     *
+     * @param <T> supplier's return type.
+     */
     <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier);
 
+    /**
+     * Manually evaluate a failpoint.
+     *
+     * @param name the name of the failpoint.
+     * @return the result produced by failpoint's supplier
+     * @param <T> the expected result type.
+     */
     <T> T eval(String name);
 
+    /**
+     * Inject a failpoint with a consumer to consume its evaluated result.
+     *
+     * @param name the name of the failpoint.
+     * @param consumer user-defined logic to consume failpoint's evaluated result.
+     */
     void inject(String name, UncheckedConsumer<?, ?> consumer);
 }

@@ -32,7 +32,7 @@ public class SimpleFailpointDriverTest {
 
     @Test
     public void testEvalFailpoint() {
-        try (final FailpointGuard ignored = Failpoints.enable("failpoints-test", () -> true)) {
+        try (final FailpointGuard ignored = Failpoints.enable("failpoints-test", true)) {
             Assertions.assertEquals(true, Failpoints.eval("failpoints-test"));
         }
         Assertions.assertNull(Failpoints.eval("failpoints-test"));
@@ -40,8 +40,7 @@ public class SimpleFailpointDriverTest {
 
     @Test
     public void testInjectFailpoint() throws Exception {
-        final String failpointName = Failpoints.prepend(TestingObject.class, "testing-object");
-        try (final FailpointGuard ignored = Failpoints.enable(failpointName, () -> true)) {
+        try (final FailpointGuard ignored = Failpoints.enable(TestingObject.class, "testing-object", true)) {
             final CountDownLatch latch = new CountDownLatch(1);
             new TestingObject().testInject(latch::countDown);
             Assertions.assertTrue(latch.await(1000, TimeUnit.MILLISECONDS));

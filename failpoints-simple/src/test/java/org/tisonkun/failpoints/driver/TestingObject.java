@@ -19,9 +19,8 @@ package org.tisonkun.failpoints.driver;
 import org.tisonkun.failpoints.Failpoints;
 
 public class TestingObject {
-
     public void testInject(Runnable r) {
-        Failpoints.inject(Failpoints.prepend(getClass(), "testing-object"), v -> {
+        Failpoints.inject(getClass(), "testing-object", v -> {
             if (v != null && (boolean) v) {
                 r.run();
             }
