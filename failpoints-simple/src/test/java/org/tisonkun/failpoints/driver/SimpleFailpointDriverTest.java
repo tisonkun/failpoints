@@ -49,4 +49,29 @@ public class SimpleFailpointDriverTest {
         new TestingObject().testInject(latch::countDown);
         Assertions.assertFalse(latch.await(1000, TimeUnit.MILLISECONDS));
     }
+
+    @Test
+    public void testManualDisableFailpoint() throws Exception {
+        try (final FailpointGuard ignored = Failpoints.enable(TestingObject.class, "testing-object", true)) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new TestingObject().testInject(latch::countDown);
+            Assertions.assertTrue(latch.await(1000, TimeUnit.MILLISECONDS));
+
+            Failpoints.disable(TestingObject.class, "testing-object");
+            latch = new CountDownLatch(1);
+            new TestingObject().testInject(latch::countDown);
+            Assertions.assertFalse(latch.await(1000, TimeUnit.MILLISECONDS));
+        }
+
+        try (final FailpointGuard ignored = Failpoints.enable(TestingObject.class, "testing-object", true)) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new TestingObject().testInject(latch::countDown);
+            Assertions.assertTrue(latch.await(1000, TimeUnit.MILLISECONDS));
+
+            Failpoints.disableAll();
+            latch = new CountDownLatch(1);
+            new TestingObject().testInject(latch::countDown);
+            Assertions.assertFalse(latch.await(1000, TimeUnit.MILLISECONDS));
+        }
+    }
 }

@@ -51,7 +51,28 @@ public class SimpleFailpointDriver implements FailpointDriver {
         if (this.failpointMap.putIfAbsent(name, failpoint) != null) {
             throw new IllegalStateException("failpoint " + name + " has been already registered");
         }
-        return new FailpointGuard(failpoint, ignored -> this.failpointMap.remove(name));
+        return new FailpointGuard(failpoint, ignored -> {
+            if (this.failpointMap.remove(name) != null) {
+                log.debug("Auto disabling failpoint {}", name);
+            } else {
+                log.debug("Failpoint {} not found on auto disabled", name);
+            }
+        });
+    }
+
+    @Override
+    public void disable(String name) {
+        if (this.failpointMap.remove(name) != null) {
+            log.debug("Disabling failpoint {}", name);
+        } else {
+            log.debug("Failpoint {} not found on disabled", name);
+        }
+    }
+
+    @Override
+    public void disableAll() {
+        log.debug("Disabling all failpoints: {}", this.failpointMap.keySet());
+        this.failpointMap.clear();
     }
 
     @Override

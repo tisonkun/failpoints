@@ -52,6 +52,18 @@ public interface FailpointDriver {
     <T> FailpointGuard enable(String name, UncheckedSupplier<T, ?> supplier);
 
     /**
+     * Disable a registered failpoint.
+     *
+     * @param name the name of the failpoint.
+     */
+    void disable(String name);
+
+    /**
+     * Disable all the registered failpoints.
+     */
+    void disableAll();
+
+    /**
      * Manually evaluate a failpoint.
      *
      * @param name the name of the failpoint.

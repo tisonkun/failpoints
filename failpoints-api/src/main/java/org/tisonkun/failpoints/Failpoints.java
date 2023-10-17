@@ -59,6 +59,18 @@ public class Failpoints {
         return enable(clazz, name, () -> value);
     }
 
+    public static void disable(String name) {
+        DRIVER.disable(name);
+    }
+
+    public static void disable(Class<?> clazz, String name) {
+        disable(prepend(clazz, name));
+    }
+
+    public static void disableAll() {
+        DRIVER.disableAll();
+    }
+
     public static <T> T eval(String name) {
         return DRIVER.eval(name);
     }

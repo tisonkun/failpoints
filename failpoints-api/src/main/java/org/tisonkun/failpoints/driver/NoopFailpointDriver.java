@@ -43,6 +43,12 @@ public class NoopFailpointDriver implements FailpointDriver {
     }
 
     @Override
+    public void disable(String name) {}
+
+    @Override
+    public void disableAll() {}
+
+    @Override
     public <T> T eval(String name) {
         return null;
     }
