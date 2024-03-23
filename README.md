@@ -1,5 +1,7 @@
 # Failpoints
 
+![Maven Central Version](https://img.shields.io/maven-central/v/org.tisonkun.failpoints/failpoints-api)
+
 An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail) for Java. Fail points are used to add code points where errors may be injected in a user controlled fashion. Fail point is a code snippet that is only executed when the corresponding failpoint is active.
 
 ## Quick Start
@@ -11,12 +13,12 @@ An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail)
 <dependency>
   <groupId>org.tisonkun.failpoints</groupId>
   <artifactId>failpoints-api</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 <dependency>
     <groupId>org.tisonkun.failpoints</groupId>
     <artifactId>failpoints-simple</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <scope>test</scope>
 </dependency>
 </dependencies>
