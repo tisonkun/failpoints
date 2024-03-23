@@ -13,12 +13,12 @@ An implementation of [failpoints](http://www.freebsd.org/cgi/man.cgi?query=fail)
 <dependency>
   <groupId>org.tisonkun.failpoints</groupId>
   <artifactId>failpoints-api</artifactId>
-  <version>2.1.0</version>
+  <version>2.1.1</version>
 </dependency>
 <dependency>
     <groupId>org.tisonkun.failpoints</groupId>
     <artifactId>failpoints-simple</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <scope>test</scope>
 </dependency>
 </dependencies>
