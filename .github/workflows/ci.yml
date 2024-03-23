@@ -31,11 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Check license header
-        uses: korandoru/hawkeye@v3
+        uses: korandoru/hawkeye@v4
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '21'
@@ -52,9 +52,9 @@ jobs:
       matrix:
         java: [8, 11, 17, 21]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
