@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>failpoints-simple</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
 
     <name>Failpoint :: Simple Driver</name>
     <description>Failpoint - Simple Driver</description>

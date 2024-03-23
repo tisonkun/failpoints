@@ -26,7 +26,6 @@
     </parent>
 
     <artifactId>failpoints-api</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
 
     <name>Failpoint :: API</name>
     <description>Failpoint - API</description>
